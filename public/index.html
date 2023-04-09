@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GPT-4 Demo</title>
+  </head>
+  <body>
+    <h1>GPT-4 Demo</h1>
+
+    <form id="message-form">
+      <label for="message-input">Message:</label>
+      <input type="text" id="message-input" name="message" />
+      <button type="submit">Send</button>
+    </form>
+
+    <pre id="response"></pre>
+
+    <script>
+      const form = document.querySelector("#message-form");
+      const input = document.querySelector("#message-input");
+      const result = document.querySelector("#response");
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const message = input.value;
+
+        const response = await fetch("/gpt4", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message }),
+        }).then(res => res.json());
+
+        console.log(response);
+        result.innerHTML = response.response;
+      });
+    </script>
+  </body>
+</html>
